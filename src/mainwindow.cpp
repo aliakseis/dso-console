@@ -15,7 +15,6 @@
 
 #include "util/settings.h"
 #include "util/globalFuncs.h"
-//#include "util/DatasetReader.h"
 #include "util/globalCalib.h"
 
 #include "util/NumType.h"
@@ -24,7 +23,6 @@
 #include "FullSystem/PixelSelector2.h"
 
 #include "IOWrapper/Pangolin/PangolinDSOViewer.h"
-//#include "IOWrapper/OutputWrapper/SampleOutputWrapper.h"
 
 #include "ui_mainwindow.h"
 
@@ -77,31 +75,12 @@ const auto SETTING_FFMPEG_URL = QStringLiteral("FFmpegUrl");
 const auto SETTING_FFMPEG_INPUT_FORMAT = QStringLiteral("FFmpegInputFormat");
 
 
-
 const auto SETTING_DESIRED_IMMATURE_DENSITY = QStringLiteral("setting_desiredImmatureDensity");
 const auto SETTING_DESIRED_POINT_DENSITY = QStringLiteral("setting_desiredPointDensity");
 const auto SETTING_MIN_FRAMES = QStringLiteral("setting_minFrames");
 const auto SETTING_MAX_FRAMES = QStringLiteral("setting_maxFrames");
 const auto SETTING_MAX_OPT_ITERATIONS = QStringLiteral("setting_maxOptIterations");
 const auto SETTING_MIN_OPT_ITERATIONS = QStringLiteral("setting_minOptIterations");
-
-/*
-
-setting_desiredImmatureDensity
-setting_desiredPointDensity
-setting_minFrames
-setting_maxFrames
-setting_maxOptIterations
-setting_minOptIterations
-
-SETTING_DESIRED_IMMATURE_DENSITY
-SETTING_DESIRED_POINT_DENSITY
-SETTING_MIN_FRAMES
-SETTING_MAX_FRAMES
-SETTING_MAX_OPT_ITERATIONS
-SETTING_MIN_OPT_ITERATIONS
-
-*/
 
 
 using namespace std;
@@ -416,13 +395,6 @@ void MainWindow::stopCamera()
 
     if( mCameraThread )
     {
-        //disconnect( mCameraThread, &CameraThread::cameraConnected,
-        //            this, &MainWindow::onCameraConnected );
-        //disconnect( mCameraThread, &CameraThread::cameraDisconnected,
-        //            this, &MainWindow::onCameraDisconnected );
-        //disconnect( mCameraThread, &CameraThread::newImage,
-        //            this, &MainWindow::onNewImage );
-
         mCameraThread->requestInterruption();
         mCameraThread->wait();
         delete mCameraThread;
@@ -572,11 +544,8 @@ void MainWindow::onNewImage( cv::Mat frame )
             cv::Mat imgFloat;
             imgGray.convertTo(imgFloat, CV_32F);
 
-            //dso::MinimalImageB minImg(imgGray.cols, imgGray.rows, imgGray.data);
-            //undistImg.reset(undistorter->undistort<unsigned char>(&minImg, 1, 0, 1.0f));
             undistImg = std::make_unique<dso::ImageAndExposure>(imgGray.cols, imgGray.rows);
             cv::Mat dst(undistImg->h, undistImg->w, CV_32FC1, undistImg->image);
-            //imgGray.convertTo(dst, CV_32F);
             normalize(imgFloat, dst, 0, 255, cv::NORM_MINMAX);
         }
     }
@@ -619,9 +588,6 @@ void MainWindow::onNewImage( cv::Mat frame )
     }
 
     // DSO stuff
-    //assert(cv_ptr->image.type() == CV_8U);
-    //assert(cv_ptr->image.channels() == 1);
-
     using namespace dso;
 
     if (mDsoInitialized)
@@ -643,18 +609,6 @@ void MainWindow::onNewImage( cv::Mat frame )
             setting_fullResetRequested = false;
         }
 
-        //cv::Mat imgGray;
-        //if (frame.channels() == 1)
-        //{
-        //    imgGray = frame;
-        //}
-        //else
-        //{
-        //    cv::cvtColor(frame, imgGray, cv::COLOR_BGR2GRAY);
-        //}
-        //MinimalImageB minImg(imgGray.cols, imgGray.rows, imgGray.data);
-
-        //ImageAndExposure* undistImg = undistorter->undistort<unsigned char>(&minImg, 1, 0, 1.0f);
         // TODO?
         //undistImg->timestamp = img->header.stamp.toSec(); // relay the timestamp to dso
 
@@ -668,7 +622,6 @@ void MainWindow::onNewImage( cv::Mat frame )
                 qDebug() << __FUNCTION__ << ": exception: " << typeid(ex).name() << ": " << ex.what();
             }
         }
-        //delete undistImg;
     }
 }
 
@@ -769,19 +722,6 @@ void MainWindow::on_pushButton_camera_connect_disconnect_clicked(bool checked)
 
         connect( mCameraCalib, &QCameraCalibrate::newCameraParams,
                  this, &MainWindow::onNewCameraParams );
-
-        /*
-        cv::Size imgSize;
-        cv::Mat K;
-        cv::Mat D;
-        double alpha;
-        mCameraCalib->getCameraParams( imgSize, K, D, alpha, fisheye );
-
-        ui->checkBox_fisheye->setChecked(fisheye);
-        ui->horizontalSlider_alpha->setValue( static_cast<int>( alpha*ui->horizontalSlider_alpha->maximum() ) );
-
-        updateParamGUI(K,D);
-        */
 
         if (cameraStarted)
         {
@@ -1262,11 +1202,6 @@ public:
         remapX = new float[w*h];
         remapY = new float[w*h];
 
-        //if (outputCalibration[0] == -1)
-        //    makeOptimalK_crop();
-        //else if (outputCalibration[0] == -2)
-        //    makeOptimalK_full();
-        //else if (outputCalibration[0] == -3)
         {
             if (w != wOrg || h != hOrg)
             {
@@ -1280,31 +1215,6 @@ public:
             K(1, 2) = parsOrg[3];
             passthrough = true;
         }
-        //else
-        //{
-
-
-        //    if (outputCalibration[2] > 1 || outputCalibration[3] > 1)
-        //    {
-        //        printf("\n\n\nWARNING: given output calibration (%f %f %f %f) seems wrong. It needs to be relative to image width / height!\n\n\n",
-        //            outputCalibration[0], outputCalibration[1], outputCalibration[2], outputCalibration[3]);
-        //    }
-
-
-        //    K.setIdentity();
-        //    K(0, 0) = outputCalibration[0] * w;
-        //    K(1, 1) = outputCalibration[1] * h;
-        //    K(0, 2) = outputCalibration[2] * w - 0.5;
-        //    K(1, 2) = outputCalibration[3] * h - 0.5;
-        //}
-
-        //if (benchmarkSetting_fxfyfac != 0)
-        //{
-        //    K(0, 0) = fmax(benchmarkSetting_fxfyfac, (float)K(0, 0));
-        //    K(1, 1) = fmax(benchmarkSetting_fxfyfac, (float)K(1, 1));
-        //    passthrough = false; // cannot pass through when fx / fy have been overwritten.
-        //}
-
 
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++)
@@ -1353,7 +1263,6 @@ public:
         valid = true;
 
     }
-    //~UndistortPinholePlain();
     void distortCoordinates(float* in_x, float* in_y, float* out_x, float* out_y, int n) const override
     {
         // current camera parameters
@@ -1395,9 +1304,6 @@ public:
             out_y[i] = oy;
         }
     }
-
-//private:
-//    float inputCalibration[8];
 };
 
 
@@ -1451,49 +1357,14 @@ void MainWindow::on_pushButton_load_params_clicked()
 
         fs["CameraMatrix"] >> K;
 
-        //int w;
-        //int h;
-
         fs["Width"] >> imgSize.width;
         fs["Height"] >> imgSize.height;
 
         fs["DistCoeffs"] >> D;
 
-        /*
-        if (!fisheye)
-        {
-            double k1 = D.ptr<double>(0)[0];
-            double k2 = D.ptr<double>(1)[0];
-
-            double p1 = D.ptr<double>(2)[0];
-            double p2 = D.ptr<double>(3)[0];
-
-            undistorter = std::make_unique<UndistortPinholePlain>(
-                K.at<double>(0, 0),
-                K.at<double>(1, 1),
-                K.at<double>(0, 2),
-                K.at<double>(1, 2),
-                k1, k2, p1, p2,
-                imgSize.width, imgSize.height);
-            undistorter->loadPhotometricCalibration({}, {}, {});
-
-            auto k = undistorter->getK();
-            printf("\nUsed Kamera Matrix:\n");
-            std::cout << k << "\n\n";
-            //cv::eigen2cv(k, K);
-            //D = cv::Mat(8, 1, CV_64F, cv::Scalar::all(0.0F));
-        }
-        else
-        //*/
         {
             if (!ui->ffmpegSource->isChecked())
             {
-                //int w;
-                //int h;
-
-                //fs["Width"] >> w;
-                //fs["Height"] >> h;
-
                 bool matched = false;
 
                 if (!mCameras.empty())
@@ -1518,11 +1389,8 @@ void MainWindow::on_pushButton_load_params_clicked()
                     QMessageBox::warning(this, tr("Warning"), tr("Current camera does not support the resolution\n"
                         "%1x%2 loaded from the file:\n"
                         "%3").arg(imgSize.width).arg(imgSize.height).arg(fileName));
-                    //return;
                 }
             }
-
-            //fs["DistCoeffs"] >> D;
         }
     }
 
@@ -1618,12 +1486,6 @@ void MainWindow::on_checkBox_fisheye_clicked(bool checked)
 
 void MainWindow::on_pushButton_StartDSO_clicked(bool checked)
 {
-
-    //mCbDetectedSnd->play();
-
-    //if (!undistorter)
-    //    return;
-
     if (checked)
     {
         if (!undistorter && !ui->pushButton_camera_connect_disconnect->isChecked())
@@ -1706,9 +1568,6 @@ void MainWindow::startDso()
     std::cout << k << "\n\n";
 
     setGlobalCalib(
-        //(int)undistorter->getSize()[0],
-        //(int)undistorter->getSize()[1],
-        //undistorter->getK()
         w, h,
         k.cast<float>());
 
@@ -1730,21 +1589,11 @@ void MainWindow::startDso()
         fullSystem->outputWrapper.push_back(new IOWrap::PangolinDSOViewer(w, h, true, stoppedCallback));
         fullSystem->outputWrapper.push_back(new CustomOutputWrapper(addPointsCallback));
     }
-            //(int)undistorter->getSize()[0],
-            //(int)undistorter->getSize()[1]));
-
-
-    //if (useSampleOutput)
-    //    fullSystem->outputWrapper.push_back(new IOWrap::SampleOutputWrapper());
-
 
     if (undistorter && undistorter->photometricUndist != nullptr) {
         fullSystem->setGammaFunction(undistorter->photometricUndist->getG());
     }
 
-
-
-    //
     mDsoInitialized = true;
 }
 
