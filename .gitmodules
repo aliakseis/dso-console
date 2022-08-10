@@ -1,0 +1,3 @@
+[submodule "dso"]
+	path = dso
+	url = https://github.com/aliakseis/dso
