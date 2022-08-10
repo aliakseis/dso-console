@@ -83,8 +83,6 @@ const auto SETTING_MAX_OPT_ITERATIONS = QStringLiteral("setting_maxOptIterations
 const auto SETTING_MIN_OPT_ITERATIONS = QStringLiteral("setting_minOptIterations");
 
 
-using namespace std;
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
