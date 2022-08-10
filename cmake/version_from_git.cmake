@@ -8,7 +8,7 @@ function(version_from_git)
         message(FATAL_ERROR "Git not found")
     endif()
 
-    set(PROJECT_GIT_REPOSITORY "${CMAKE_CURRENT_SOURCE_DIR}/../.git")
+    set(PROJECT_GIT_REPOSITORY "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     if(IS_DIRECTORY ${PROJECT_GIT_REPOSITORY})
         message("Project git repository found ${PROJECT_GIT_REPOSITORY}")
     else()
