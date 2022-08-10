@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mCbDetectedSnd = new QSound( "://sound/cell-phone-1-nr0.wav", this);
 
     // >>>>> OpenCV version
-    QString ocvVers = updateOpenCvVer();
+    QString ocvVers = tr("OpenCV %1.%2.%3").arg(CV_MAJOR_VERSION).arg(CV_MINOR_VERSION).arg(CV_SUBMINOR_VERSION);
     mOpenCvVer.setText( ocvVers );
     mOpenCvVer.setFrameStyle(QFrame::Panel | QFrame::Sunken);
     ui->statusBar->addPermanentWidget( &mOpenCvVer );
@@ -279,13 +279,6 @@ MainWindow::~MainWindow()
     delete mCameraSceneCheckboard;
     delete mCameraSceneUndistorted;
     delete mCameraCalib;
-}
-
-QString MainWindow::updateOpenCvVer()
-{
-    QString ocvVers = tr("OpenCV %1.%2.%3").arg(CV_MAJOR_VERSION).arg(CV_MINOR_VERSION).arg(CV_SUBMINOR_VERSION);
-
-    return ocvVers;
 }
 
 QStringList MainWindow::updateCameraInfo()
@@ -1344,7 +1337,7 @@ void MainWindow::on_pushButton_load_params_clicked()
     }
     else
     {
-        cv::FileStorage fs( fileName.toLocal8Bit().toStdString(), cv::FileStorage::READ||cv::FileStorage::FORMAT_AUTO );
+        cv::FileStorage fs( fileName.toLocal8Bit().toStdString(), cv::FileStorage::READ | cv::FileStorage::FORMAT_AUTO );
         if (!fs.isOpened())
         {
             return;
