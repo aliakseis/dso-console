@@ -60,7 +60,7 @@ void CameraThread::run()
 
         cv::Mat frame = mImageSink->getLastFrame();
 
-        if( !frame.empty() && !frame.rows==0 && !frame.cols==0 )
+        if( !frame.empty() && frame.rows!=0 && frame.cols!=0 )
         {
             emit newImage( frame );
             msleep( 500.0/mFps );
