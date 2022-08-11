@@ -1328,7 +1328,7 @@ void MainWindow::on_pushButton_load_params_clicked()
     { 
         undistorter.reset(dso::Undistort::getUndistorterForFile(QFile::encodeName(fileName).constData(), {}, {}));
         auto k = undistorter->getK();
-        printf("\nUsed Kamera Matrix:\n");
+        printf("\nUsed Camera Matrix:\n");
         std::cout << k << "\n\n";
         cv::eigen2cv(k, K);
         D = cv::Mat(8, 1, CV_64F, cv::Scalar::all(0.0F));
@@ -1555,7 +1555,7 @@ void MainWindow::startDso()
         h = mSrcHeight;
     }
 
-    printf("\nUsed Kamera Matrix:\n");
+    printf("\nUsed Camera Matrix:\n");
     std::cout << k << "\n\n";
 
     setGlobalCalib(
