@@ -785,7 +785,7 @@ bool MainWindow::killGstLaunch( )
 {
     if (mGstProcess.state() != QProcess::Running) {
         return true;
-}
+    }
 
     // >>>>> Kill gst-launch-1.0 processes
 
@@ -1525,6 +1525,8 @@ void MainWindow::startDso()
     setting_photometricCalibration = 0;
     setting_affineOptModeA = 0;
     setting_affineOptModeB = 0;
+
+    setting_viewer_run_loop_sleep_for_ms = 40;
 
     int w;
     int h;
