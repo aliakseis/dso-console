@@ -196,7 +196,11 @@ MainWindow::MainWindow(QWidget *parent) :
     void *i{};
     while (auto fmt = av_demuxer_iterate(&i))
     {
-        inputFormats.push_back(fmt->name);
+        QString s(fmt->name);
+        if (s.length() < 18) // filter out exotic formats
+        {
+            inputFormats.push_back(s);
+        }
     }
     std::sort(inputFormats.begin(), inputFormats.end());
     ui->comboBox_InputFormat->addItems(inputFormats);
