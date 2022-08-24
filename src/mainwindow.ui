@@ -390,7 +390,7 @@
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>80</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -443,7 +443,7 @@
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>80</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -1198,7 +1198,7 @@ cameras. Useful if connection and USB camera</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>80</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -1225,7 +1225,7 @@ cameras. Useful if connection and USB camera</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>80</width>
                   <height>16777215</height>
                  </size>
                 </property>
