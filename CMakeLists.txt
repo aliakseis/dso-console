@@ -85,11 +85,13 @@ add_executable(CameraCalibration #WIN32 MACOSX_BUNDLE
     libs/gst_sink_opencv/include/camerathread.h
     libs/gst_sink_opencv/include/gst_sink_opencv.hpp
     libs/gst_sink_opencv/include/ffmpeg_sink.h
+    libs/qt_opencv_scene/include/qopencvscene.h
+    libs/gst_sink_opencv/include/web_sink.h
     libs/gst_sink_opencv/src/camerathread.cpp
     libs/gst_sink_opencv/src/gst_sink_opencv.cpp
     libs/gst_sink_opencv/src/ffmpeg_sink.cpp
-    libs/qt_opencv_scene/include/qopencvscene.h
     libs/qt_opencv_scene/src/qopencvscene.cpp
+    libs/gst_sink_opencv/src/web_sink.cpp
     src/cameraundistort.cpp
     src/main.cpp
     src/mainwindow.cpp
