@@ -2,6 +2,7 @@
 
 #include "camerathread.h"
 #include "ffmpeg_sink.h"
+#include "web_sink.h"
 #include "qopencvscene.h"
 
 // DSO stuff
@@ -70,6 +71,7 @@ const auto SETTING_CB_MAX_COUNT = QStringLiteral("ChessboardMaxCount");
 const auto SETTING_FISHEYE = QStringLiteral("Fisheye");
 
 const auto SETTING_USE_FFMPEG = QStringLiteral("UseFFmpeg");
+const auto SETTING_USE_WEB = QStringLiteral("UseWeb");
 
 const auto SETTING_FFMPEG_URL = QStringLiteral("FFmpegUrl");
 const auto SETTING_FFMPEG_INPUT_FORMAT = QStringLiteral("FFmpegInputFormat");
@@ -217,8 +219,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lineEdit_URL->setText(settings.value(SETTING_FFMPEG_URL).toString());
     ui->comboBox_InputFormat->setCurrentText(settings.value(SETTING_FFMPEG_INPUT_FORMAT).toString());
 
-    (settings.value(SETTING_USE_FFMPEG, false).toBool()
-        ? ui->ffmpegSource : ui->gstreamerSource)->setChecked(true);
+    (settings.value(SETTING_USE_WEB, false).toBool()
+        ? ui->ffmpegSource :
+        (settings.value(SETTING_USE_FFMPEG, false).toBool()
+        ? ui->ffmpegSource : ui->gstreamerSource))->setChecked(true);
 
 
     // DSO
@@ -251,6 +255,7 @@ MainWindow::~MainWindow()
     settings.setValue(SETTING_FISHEYE, ui->checkBox_fisheye->isChecked());
 
     settings.setValue(SETTING_USE_FFMPEG, ui->ffmpegSource->isChecked());
+    settings.setValue(SETTING_USE_WEB, ui->ffmpegSource->isChecked());
 
     settings.setValue(SETTING_FFMPEG_URL, ui->lineEdit_URL->text());
     settings.setValue(SETTING_FFMPEG_INPUT_FORMAT, ui->comboBox_InputFormat->currentText());
@@ -346,7 +351,31 @@ bool MainWindow::startCamera()
         mCameraThread = nullptr;
     }
 
-    if (ui->ffmpegSource->isChecked())
+    if (ui->webSource->isChecked())
+    {
+        mSrcWidth = ui->lineEdit_web_width->text().toInt();
+        mSrcHeight = ui->lineEdit_web_height->text().toInt();
+
+        mSrcFpsDen = 30;
+        mSrcFpsNum = 1;
+
+        const auto webThread = new WebThread(
+            ui->lineEdit_webURL->text(),
+            mSrcWidth,
+            mSrcHeight);
+
+        if (!webThread->init())
+        {
+            delete webThread;
+            return false;
+        }
+
+        mCameraThread = webThread;
+
+        connect(webThread, &WebThread::cameraDisconnected, this, &MainWindow::onCameraDisconnected);
+        connect(webThread, &WebThread::newImage, this, &MainWindow::onNewImage);
+    }
+    else if (ui->ffmpegSource->isChecked())
     {
         const auto ffmpegThread = new FFmpegThread(
             ui->lineEdit_URL->text().toStdString(),

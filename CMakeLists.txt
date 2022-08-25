@@ -16,7 +16,7 @@ set(CMAKE_AUTOUIC ON)
 #set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
 
 find_package(QT NAMES Qt5 Qt6 REQUIRED COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui OpenGL)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui OpenGL WebSockets)
 find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Multimedia Widgets)
 
 FIND_PACKAGE( OpenCV 4 REQUIRED )
@@ -87,11 +87,13 @@ add_executable(CameraCalibration #WIN32 MACOSX_BUNDLE
     libs/gst_sink_opencv/include/ffmpeg_sink.h
     libs/qt_opencv_scene/include/qopencvscene.h
     libs/gst_sink_opencv/include/web_sink.h
+    libs/gst_sink_opencv/include/echoclient.h
     libs/gst_sink_opencv/src/camerathread.cpp
     libs/gst_sink_opencv/src/gst_sink_opencv.cpp
     libs/gst_sink_opencv/src/ffmpeg_sink.cpp
     libs/qt_opencv_scene/src/qopencvscene.cpp
     libs/gst_sink_opencv/src/web_sink.cpp
+    libs/gst_sink_opencv/src/echoclient.cpp
     src/cameraundistort.cpp
     src/main.cpp
     src/mainwindow.cpp
@@ -126,6 +128,7 @@ target_link_libraries(CameraCalibration PUBLIC
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::OpenGL
+    Qt${QT_VERSION_MAJOR}::WebSockets
     ${OpenCV_LIBRARIES}
     ${PCL_LIBRARIES}
     ${GSTREAMER_LIBRARIES}
