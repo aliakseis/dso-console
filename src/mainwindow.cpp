@@ -76,6 +76,9 @@ const auto SETTING_USE_WEB = QStringLiteral("UseWeb");
 const auto SETTING_FFMPEG_URL = QStringLiteral("FFmpegUrl");
 const auto SETTING_FFMPEG_INPUT_FORMAT = QStringLiteral("FFmpegInputFormat");
 
+const auto SETTING_WEB_URL = QStringLiteral("WebUrl");
+const auto SETTING_WEB_WIDTH = QStringLiteral("WebWidth");
+const auto SETTING_WEB_HEIGHT = QStringLiteral("WebHeight");
 
 const auto SETTING_DESIRED_IMMATURE_DENSITY = QStringLiteral("setting_desiredImmatureDensity");
 const auto SETTING_DESIRED_POINT_DENSITY = QStringLiteral("setting_desiredPointDensity");
@@ -168,6 +171,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lineEdit_setting_maxOptIterations->setValidator(new QIntValidator(1, 99, this));
     ui->lineEdit_setting_minOptIterations->setValidator(new QIntValidator(1, 99, this));
 
+    ui->lineEdit_web_width->setValidator(new QIntValidator(10, 9999, this));
+    ui->lineEdit_web_height->setValidator(new QIntValidator(10, 9999, this));
 
     auto validationErrorLam = [this] {
         QMessageBox::warning(this, tr("Validation error"), tr("Please provide a correct value."));
@@ -185,7 +190,9 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->lineEdit_setting_minFrames,
             ui->lineEdit_setting_maxFrames,
             ui->lineEdit_setting_maxOptIterations,
-            ui->lineEdit_setting_minOptIterations
+            ui->lineEdit_setting_minOptIterations,
+            ui->lineEdit_web_width,
+            ui->lineEdit_web_height
         })
     {
         connect(edit, &CustomLineEdit::validationError, validationErrorLam);
@@ -219,8 +226,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lineEdit_URL->setText(settings.value(SETTING_FFMPEG_URL).toString());
     ui->comboBox_InputFormat->setCurrentText(settings.value(SETTING_FFMPEG_INPUT_FORMAT).toString());
 
+    ui->lineEdit_webURL->setText(settings.value(SETTING_WEB_URL).toString());
+    ui->lineEdit_web_width->setText(settings.value(SETTING_WEB_WIDTH).toString());
+    ui->lineEdit_web_height->setText(settings.value(SETTING_WEB_HEIGHT).toString());
+
+
     (settings.value(SETTING_USE_WEB, false).toBool()
-        ? ui->ffmpegSource :
+        ? ui->webSource :
         (settings.value(SETTING_USE_FFMPEG, false).toBool()
         ? ui->ffmpegSource : ui->gstreamerSource))->setChecked(true);
 
@@ -255,10 +267,15 @@ MainWindow::~MainWindow()
     settings.setValue(SETTING_FISHEYE, ui->checkBox_fisheye->isChecked());
 
     settings.setValue(SETTING_USE_FFMPEG, ui->ffmpegSource->isChecked());
-    settings.setValue(SETTING_USE_WEB, ui->ffmpegSource->isChecked());
+    settings.setValue(SETTING_USE_WEB, ui->webSource->isChecked());
 
     settings.setValue(SETTING_FFMPEG_URL, ui->lineEdit_URL->text());
     settings.setValue(SETTING_FFMPEG_INPUT_FORMAT, ui->comboBox_InputFormat->currentText());
+
+    settings.setValue(SETTING_WEB_URL, ui->lineEdit_webURL->text());
+    settings.setValue(SETTING_WEB_WIDTH, ui->lineEdit_web_width->text());
+    settings.setValue(SETTING_WEB_HEIGHT, ui->lineEdit_web_height->text());
+
 
     settings.setValue(SETTING_DESIRED_IMMATURE_DENSITY, ui->lineEdit_setting_desiredImmatureDensity->text());
     settings.setValue(SETTING_DESIRED_POINT_DENSITY, ui->lineEdit_setting_desiredPointDensity->text());

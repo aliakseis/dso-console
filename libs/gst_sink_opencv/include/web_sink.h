@@ -4,10 +4,14 @@
 
 #include <QProcess>
 
+#include <atomic>
+
 class EchoClient;
 
 class WebThread : public CameraThreadBase
 {
+    enum { MAX_QUEUE_SIZE = 10 };
+
     Q_OBJECT
 
 public:
@@ -19,8 +23,8 @@ public:
 
     bool init();
 
-    double getBufPerc() override { return 0; }
-    void dataConsumed() override {}
+    double getBufPerc() override { return m_queueSize / (double)MAX_QUEUE_SIZE; }
+    void dataConsumed() override { --m_queueSize; }
     cv::Size getSize() override { return {}; }
     std::pair<int, int> getFps() override { return {}; }
 
@@ -51,4 +55,6 @@ private:
     EchoClient* m_echoClient{};
 
     bool m_interruptRequested = false;
+
+    std::atomic_int m_queueSize{ 0 };
 };

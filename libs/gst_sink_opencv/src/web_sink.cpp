@@ -105,6 +105,10 @@ void WebThread::run()
 
 void WebThread::onDataReceived(const QByteArray& data)
 {
-    auto mat = cv::imdecode({ data.data(), data.size() }, cv::IMREAD_COLOR);
-    emit newImage(mat);
+    if (m_queueSize < MAX_QUEUE_SIZE)
+    {
+        ++m_queueSize;
+        auto mat = cv::imdecode({ data.data(), data.size() }, cv::IMREAD_COLOR);
+        emit newImage(mat);
+    }
 }
