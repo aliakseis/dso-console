@@ -24,7 +24,10 @@ public:
     cv::Size getSize() override { return {}; }
     std::pair<int, int> getFps() override { return {}; }
 
-    //void requestInterruption() override;
+    void requestInterruption() override
+    {
+        quit();
+    }
 
 private slots:
     void onDataReceived(const QByteArray& data);
