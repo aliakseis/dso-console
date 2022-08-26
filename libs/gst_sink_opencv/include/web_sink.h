@@ -26,6 +26,7 @@ public:
 
     void requestInterruption() override
     {
+        m_interruptRequested = true;
         quit();
     }
 
@@ -48,4 +49,6 @@ private:
 
     QProcess m_chromeProces;
     EchoClient* m_echoClient{};
+
+    bool m_interruptRequested = false;
 };

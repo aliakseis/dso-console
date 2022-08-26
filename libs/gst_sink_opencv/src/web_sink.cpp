@@ -100,7 +100,7 @@ void WebThread::run()
     QObject::connect(m_echoClient, &EchoClient::closed, this, &WebThread::quit);
     QObject::connect(m_echoClient, &EchoClient::dataReceived, this, &WebThread::onDataReceived);
     exec();
-    emit cameraDisconnected(false);
+    emit cameraDisconnected(m_interruptRequested);
 }
 
 void WebThread::onDataReceived(const QByteArray& data)
