@@ -175,8 +175,321 @@
          </widget>
         </item>
 
+         <item row="1" column="0" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+               <widget class="QComboBox" name="comboBox_camera">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                   </sizepolicy>
+                 </property>
+               </widget>
+             </item>
+             <item>
+               <widget class="QPushButton" name="pushButton_update_camera_list">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                   <string>
+                     Click to update the list of available
+                     cameras. Useful if connection and USB camera
+                   </string>
+                 </property>
+                 <property name="text">
+                   <string>Update</string>
+                 </property>
+               </widget>
+             </item>
+           </layout>
+         </item>
 
-        <item row="6" column="0" colspan="2">
+         <item row="2" column="0" colspan="2">
+           <layout class="QHBoxLayout" name="verticalLayout_9">
+             <item>
+               <widget class="QLabel" name="label_8">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="text">
+                   <string>Resolution and FPS</string>
+                 </property>
+               </widget>
+             </item>
+             <item>
+               <widget class="QComboBox" name="comboBox_camera_res"/>
+             </item>
+           </layout>
+         </item>
+
+         <item row="3" column="0" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+
+               <widget class="QRadioButton" name="ffmpegSource">
+                 <property name="text">
+                   <string>FFmpeg source</string>
+                 </property>
+               </widget>
+
+             </item>
+
+             <item>
+               <widget class="QLabel" name="label_2">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>24</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                   <size>
+                     <width>0</width>
+                     <height>24</height>
+                   </size>
+                 </property>
+                 <property name="text">
+                   <string>URL</string>
+                 </property>
+               </widget>
+             </item>
+             <item>
+               <widget class="QLineEdit" name="lineEdit_URL">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>24</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                   <size>
+                     <width>0</width>
+                     <height>24</height>
+                   </size>
+                 </property>
+                 <property name="font">
+                   <font>
+                     <pointsize>8</pointsize>
+                   </font>
+                 </property>
+                 <property name="text">
+                   <string/>
+                 </property>
+                 <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                 </property>
+               </widget>
+             </item>
+             <item>
+               <widget class="QLabel" name="label_3">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>24</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                   <size>
+                     <width>0</width>
+                     <height>24</height>
+                   </size>
+                 </property>
+                 <property name="text">
+                   <string>Input format</string>
+                 </property>
+               </widget>
+             </item>
+             <item>
+               <widget class="QComboBox" name="comboBox_InputFormat">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                   </sizepolicy>
+                 </property>
+               </widget>
+             </item>
+           </layout>
+         </item>
+
+         <item row="4" column="0" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+
+               <widget class="QRadioButton" name="webSource">
+                 <property name="text">
+                   <string>Web source</string>
+                 </property>
+               </widget>
+
+             </item>
+
+             <item>
+               <widget class="QLabel" name="label_2">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>24</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                   <size>
+                     <width>0</width>
+                     <height>24</height>
+                   </size>
+                 </property>
+                 <property name="text">
+                   <string>URL</string>
+                 </property>
+               </widget>
+             </item>
+             <item>
+               <widget class="QLineEdit" name="lineEdit_webURL">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>24</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                   <size>
+                     <width>0</width>
+                     <height>24</height>
+                   </size>
+                 </property>
+                 <property name="font">
+                   <font>
+                     <pointsize>8</pointsize>
+                   </font>
+                 </property>
+                 <property name="text">
+                   <string/>
+                 </property>
+                 <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                 </property>
+               </widget>
+             </item>
+
+             <item>
+               <widget class="QLabel" name="label_3">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>24</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                   <size>
+                     <width>0</width>
+                     <height>24</height>
+                   </size>
+                 </property>
+                 <property name="text">
+                   <string>Width</string>
+                 </property>
+               </widget>
+             </item>
+
+
+
+
+             <item>
+               <widget class="CustomLineEdit" name="lineEdit_web_width">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                   <size>
+                     <width>80</width>
+                     <height>16777215</height>
+                   </size>
+                 </property>
+                 <property name="font">
+                   <font>
+                     <pointsize>8</pointsize>
+                   </font>
+                 </property>
+                 <property name="text">
+                   <string></string>
+                 </property>
+                 <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                 </property>
+               </widget>
+             </item>
+
+
+
+
+             <item>
+               <widget class="QLabel" name="label_3">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>24</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                   <size>
+                     <width>0</width>
+                     <height>24</height>
+                   </size>
+                 </property>
+                 <property name="text">
+                   <string>Height</string>
+                 </property>
+               </widget>
+             </item>
+
+
+
+             <item>
+               <widget class="CustomLineEdit" name="lineEdit_web_height">
+                 <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                   </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                   <size>
+                     <width>80</width>
+                     <height>16777215</height>
+                   </size>
+                 </property>
+                 <property name="font">
+                   <font>
+                     <pointsize>8</pointsize>
+                   </font>
+                 </property>
+                 <property name="text">
+                   <string></string>
+                 </property>
+                 <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                 </property>
+               </widget>
+             </item>
+
+
+
+           </layout>
+         </item>
+
+
+         <item row="6" column="0" colspan="2">
          <widget class="QPushButton" name="pushButton_camera_connect_disconnect">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -205,301 +518,13 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0" colspan="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <item>
-
-         <widget class="QRadioButton" name="ffmpegSource">
-          <property name="text">
-           <string>FFmpeg source</string>
-          </property>
-         </widget>
-
-          </item>
-
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>24</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>URL</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineEdit_URL">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>24</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>8</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>24</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Input format</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox_InputFormat">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
+         
 
 
 
 
-        <item row="4" column="0" colspan="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <item>
-
-         <widget class="QRadioButton" name="webSource">
-          <property name="text">
-           <string>Web source</string>
-          </property>
-         </widget>
-
-          </item>
-
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>24</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>URL</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineEdit_webURL">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>24</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>8</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>24</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Width</string>
-            </property>
-           </widget>
-          </item>
 
 
-
-
-          <item>
-               <widget class="CustomLineEdit" name="lineEdit_web_width">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>80</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>8</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string></string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-          </item>
-
-
-
-
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>24</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Height</string>
-            </property>
-           </widget>
-          </item>
-
-
-
-          <item>
-               <widget class="CustomLineEdit" name="lineEdit_web_height">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>80</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>8</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string></string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-          </item>
-
-
-
-         </layout>
-        </item>
-
-
-
-
-        <item row="1" column="0" colspan="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QComboBox" name="comboBox_camera">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_update_camera_list">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Click to update the list of available
-cameras. Useful if connection and USB camera</string>
-            </property>
-            <property name="text">
-             <string>Update</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
         <item row="7" column="0" colspan="2">
          <spacer name="verticalSpacer_5">
           <property name="orientation">
@@ -516,6 +541,7 @@ cameras. Useful if connection and USB camera</string>
           </property>
          </spacer>
         </item>
+         
         <item row="8" column="0" colspan="2">
          <widget class="QGroupBox" name="groupBox_params">
           <property name="sizePolicy">
@@ -1340,26 +1366,7 @@ cameras. Useful if connection and USB camera</string>
           </layout>
          </widget>
         </item>
-        <item row="2" column="0" colspan="2">
-         <layout class="QHBoxLayout" name="verticalLayout_9">
-          <item>
-           <widget class="QLabel" name="label_8">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Resolution and FPS</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox_camera_res"/>
-          </item>
-         </layout>
-        </item>
+         
        </layout>
       </widget>
      </item>
