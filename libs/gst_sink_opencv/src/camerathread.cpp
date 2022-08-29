@@ -8,8 +8,6 @@ using namespace std;
 CameraThread::CameraThread( double fps)
     : mImageSink(nullptr)
 {
-    qRegisterMetaType<cv::Mat>( "cv::Mat" );
-
     mFps = fps;
 }
 

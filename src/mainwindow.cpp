@@ -98,6 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mCameraCalib(nullptr),
     mCbDetectedSnd(nullptr)
 {
+    qRegisterMetaType<cv::Mat>("cv::Mat");
     qRegisterMetaType<cv::Size>("cv::Size");
     qRegisterMetaType<std::vector<std::array<float, 3>>>("std::vector<std::array<float, 3>>");
 

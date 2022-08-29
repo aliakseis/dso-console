@@ -67,6 +67,8 @@ static QString getWebSocketDebuggerUrl()
 
 bool WebThread::init()
 {
+    moveToThread(this);
+
     m_webSocketDebuggerUrl = getWebSocketDebuggerUrl();
 
     if (m_webSocketDebuggerUrl.isEmpty())
@@ -97,9 +99,12 @@ bool WebThread::init()
 void WebThread::run()
 {
     m_echoClient = new EchoClient(m_webSocketDebuggerUrl, m_url, m_width, m_height, false, this);
+    m_echoClient->moveToThread(this);
     QObject::connect(m_echoClient, &EchoClient::closed, this, &WebThread::quit);
     QObject::connect(m_echoClient, &EchoClient::dataReceived, this, &WebThread::onDataReceived);
+
     exec();
+
     emit cameraDisconnected(m_interruptRequested);
 }
 
