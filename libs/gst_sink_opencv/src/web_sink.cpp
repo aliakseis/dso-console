@@ -82,7 +82,7 @@ bool WebThread::init()
 
         const auto path = split[1];
 
-        m_chromeProces.start(path, { "--remote-debugging-port=9222", "--headless" });
+        m_chromeProces.start(path, { "--remote-debugging-port=9222", "--headless", "--mute-audio" });
         if (!m_chromeProces.waitForStarted(5000))
         {
             // TODO Camera error message
