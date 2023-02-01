@@ -1816,12 +1816,12 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
                 <property name="text">
-                 <string>Immature Density</string>
+                 <string>Immat. Dens.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1838,7 +1838,7 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -1855,7 +1855,7 @@ are used to refine the parameters</string>
               </item>
              </layout>
             </item>
-            <item row="0" column="1">
+            <item row="1" column="0">
              <layout class="QVBoxLayout" name="verticalLayout_4">
               <property name="spacing">
                <number>0</number>
@@ -1870,12 +1870,12 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
                 <property name="text">
-                 <string>Point Density</string>
+                 <string>Point Dens.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1892,7 +1892,7 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -1909,7 +1909,7 @@ are used to refine the parameters</string>
               </item>
              </layout>
             </item>
-            <item row="1" column="0">
+            <item row="0" column="1">
              <layout class="QVBoxLayout" name="verticalLayout_5">
               <property name="spacing">
                <number>0</number>
@@ -1924,7 +1924,7 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -1946,7 +1946,7 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -1978,7 +1978,7 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -2000,7 +2000,7 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -2017,7 +2017,7 @@ are used to refine the parameters</string>
               </item>
              </layout>
             </item>
-            <item row="2" column="0">
+            <item row="0" column="2">
              <layout class="QVBoxLayout" name="verticalLayout_5">
               <property name="spacing">
                <number>0</number>
@@ -2032,12 +2032,12 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
                 <property name="text">
-                 <string>max Opt Iterations</string>
+                 <string>max Opt Iters</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2054,7 +2054,7 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -2071,7 +2071,7 @@ are used to refine the parameters</string>
               </item>
              </layout>
             </item>
-            <item row="2" column="1">
+            <item row="1" column="2">
              <layout class="QVBoxLayout" name="verticalLayout_4">
               <property name="spacing">
                <number>0</number>
@@ -2086,12 +2086,12 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
                 <property name="text">
-                 <string>min Opt Iterations</string>
+                 <string>min Opt Iters</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2108,7 +2108,7 @@ are used to refine the parameters</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>96</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
