@@ -87,6 +87,24 @@ const auto SETTING_MAX_FRAMES = QStringLiteral("setting_maxFrames");
 const auto SETTING_MAX_OPT_ITERATIONS = QStringLiteral("setting_maxOptIterations");
 const auto SETTING_MIN_OPT_ITERATIONS = QStringLiteral("setting_minOptIterations");
 
+namespace {
+
+const int sliceIntervalValues[] = { 1, 2, 5, 10, 30 };
+
+void InitSliceDurationsCombo(QComboBox* combo)
+{
+    combo->addItem(QObject::tr("No slice"));
+    for (int minutes = 0; minutes <= 1; ++minutes)
+    { 
+        auto templ = QObject::tr(minutes ? "%1 min" : "%1 sec");
+        for (auto v : sliceIntervalValues)
+        {
+            combo->addItem(templ.arg(v));
+        }
+    }
+}
+
+}
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -215,6 +233,7 @@ MainWindow::MainWindow(QWidget *parent) :
     std::sort(inputFormats.begin(), inputFormats.end());
     ui->comboBox_InputFormat->addItems(inputFormats);
 
+    InitSliceDurationsCombo(ui->comboBox_SliceDuration);
 
     QSettings settings;
     ui->lineEdit_cb_cols->setText(settings.value(SETTING_CB_COLS, 10).toString());
