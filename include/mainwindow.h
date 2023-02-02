@@ -109,6 +109,8 @@ private slots:
 
     void on_pushButton_StartDSO_clicked(bool checked);
 
+    void on_checkBox_save_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
 

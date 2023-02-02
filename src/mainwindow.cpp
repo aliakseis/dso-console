@@ -106,6 +106,18 @@ void InitSliceDurationsCombo(QComboBox* combo)
     }
 }
 
+int getSliceDurationSecs(QComboBox* combo) // zero if no slices
+{
+    const int index = combo->currentIndex() - 1;
+    if (index < 0)
+        return 0;
+
+    const int minutes = index / std::size(sliceIntervalValues);
+    const int valueIdx = index % std::size(sliceIntervalValues);
+
+    return (minutes ? 60 : 1) * sliceIntervalValues[valueIdx];
+}
+
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -457,6 +469,8 @@ void MainWindow::stopCamera()
 {
     killGstLaunch();
 
+    m_videoSaver->onVideoStopped();
+
     if( mCameraThread )
     {
         mCameraThread->requestInterruption();
@@ -473,6 +487,8 @@ void MainWindow::onCameraConnected()
 
 void MainWindow::onCameraDisconnected(bool ok)
 {
+    m_videoSaver->onVideoStopped();
+
     mCameraConnected = false;
 
     ui->pushButton_camera_connect_disconnect->setChecked(false);
@@ -508,6 +524,12 @@ void MainWindow::onNewImage( cv::Mat frame )
     if (auto source = dynamic_cast<CameraThreadBase*>(sender()))
     {
         source->dataConsumed();
+    }
+
+    if (ui->checkBox_save->isChecked())
+    {
+        m_videoSaver->onNewImage(frame, ui->lineEdit_SavePath->text(),
+            getSliceDurationSecs(ui->comboBox_SliceDuration));
     }
 
     static int frmCnt=0;
@@ -1717,4 +1739,12 @@ void MainWindow::on_pushButton_SavePointCloud_clicked()
     cloud->width = cloud->size();
 
     pcl::io::savePCDFile(fileName.toLocal8Bit().toStdString(), *cloud, true);
+}
+
+void MainWindow::on_checkBox_save_clicked(bool checked)
+{
+    if (!checked)
+    {
+        m_videoSaver->onVideoStopped();
+    }
 }
