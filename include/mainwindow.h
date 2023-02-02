@@ -21,6 +21,8 @@ class QOpenCVScene;
 
 class QCameraCalibrate;
 
+class VideoSaver;
+
 namespace Ui
 {
 class MainWindow;
@@ -160,6 +162,8 @@ private:
     std::vector<std::array<float, 3>> m_pointsCloud;
 
     bool mParametersReset = false;
+
+    std::unique_ptr<VideoSaver> m_videoSaver;
 };
 
 #endif // MAINWINDOW_H

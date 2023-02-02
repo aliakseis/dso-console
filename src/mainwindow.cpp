@@ -5,6 +5,8 @@
 #include "web_sink.h"
 #include "qopencvscene.h"
 
+#include "VideoSaver.h"
+
 // DSO stuff
 #include "util/settings.h"
 #include "FullSystem/FullSystem.h"
@@ -114,7 +116,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mCameraSceneCheckboard(nullptr),
     mCameraSceneUndistorted(nullptr),
     mCameraCalib(nullptr),
-    mCbDetectedSnd(nullptr)
+    mCbDetectedSnd(nullptr),
+    m_videoSaver(std::make_unique<VideoSaver>())
 {
     qRegisterMetaType<cv::Mat>("cv::Mat");
     qRegisterMetaType<cv::Size>("cv::Size");

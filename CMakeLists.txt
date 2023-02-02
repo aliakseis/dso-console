@@ -82,6 +82,7 @@ add_executable(CameraCalibration #WIN32 MACOSX_BUNDLE
     include/cameraman.h
     include/CustomLineEdit.h
     include/CustomOutputWrapper.h
+    include/VideoSaver.h
     libs/gst_sink_opencv/include/camerathreadbase.h
     libs/gst_sink_opencv/include/camerathread.h
     libs/gst_sink_opencv/include/gst_sink_opencv.hpp
@@ -104,6 +105,7 @@ add_executable(CameraCalibration #WIN32 MACOSX_BUNDLE
     src/cameraman.cpp
     src/CustomLineEdit.cpp
     src/CustomOutputWrapper.cpp
+    src/VideoSaver.cpp
     src/mainwindow.ui
     ${QRCS}
 )
