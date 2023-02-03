@@ -32,6 +32,13 @@ VideoSaver::VideoSaver() : m_stopped(new std::promise<void>, [](std::promise<voi
 
 VideoSaver::~VideoSaver()
 {
+    if (m_queue)
+    {
+        cv::Mat frame;
+        m_queue->push(frame);
+    }
+    m_queue.reset();
+
     auto fut = m_stopped->get_future();
     m_stopped.reset();
     fut.get();
