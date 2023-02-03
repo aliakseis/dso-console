@@ -1,15 +1,17 @@
 #pragma once
 
+#include "fqueue.h"
+
 //#include <opencv2/core/mat.hpp>
 #include <QString>
 #include <QDateTime>
 
 #include <memory>
+#include <future>
 
 namespace cv {
  
 class Mat;
-class VideoWriter;
 
 }
 
@@ -25,7 +27,12 @@ public:
     void onNewImage(const cv::Mat& frame, QString savePath, int sliceSeconds);
     void onVideoStopped();
 
+    typedef FQueue<cv::Mat, 15000000, 500> MatQueue;
+    typedef std::shared_ptr<MatQueue> MatQueuePtr;
+    typedef std::shared_ptr<std::promise<void>> StopWatcher;
+
 private:
-    std::unique_ptr<cv::VideoWriter> m_videoWriter;
     QDateTime m_startTime;
+    StopWatcher m_stopped;
+    MatQueuePtr m_queue;
 };

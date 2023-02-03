@@ -1,37 +1,85 @@
 #include "VideoSaver.h"
 
+#include "ffmpeg_encode.h"
+
 #include <opencv2/opencv.hpp>
-#include <opencv2/videoio.hpp>
 
 #include <QDebug>
 
-VideoSaver::VideoSaver() = default;
-VideoSaver::~VideoSaver() = default;
+namespace {
+
+size_t GetSize(const cv::Mat& mat) { return mat.total(); }
+
+void RunnerFunc(std::string filename, FfmpegEncoder::Params params,
+    VideoSaver::MatQueuePtr matQueue, VideoSaver::StopWatcher stopWatcher)
+{
+    stopWatcher;
+    FfmpegEncoder ffmpegEncoder(filename.c_str(), params);
+    cv::Mat packet;
+    while (matQueue->pop(packet) && packet.cols == params.width && packet.rows == params.height)
+    {
+        ffmpegEncoder.Write(packet.data, packet.step[0]);
+    }
+}
+
+
+}
+
+
+VideoSaver::VideoSaver() : m_stopped(new std::promise<void>, [](std::promise<void>* p) { p->set_value(); delete p; })
+{
+}
+
+VideoSaver::~VideoSaver()
+{
+    auto fut = m_stopped->get_future();
+    m_stopped.reset();
+    fut.get();
+}
 
 void VideoSaver::onNewImage(const cv::Mat& frame, QString savePath, int sliceSeconds)
 {
     QDateTime now = QDateTime::currentDateTime();
-    if (!m_videoWriter || m_startTime.isNull() || m_startTime.msecsTo(now) >= sliceSeconds * 1000)
+    if (!m_queue || m_startTime.isNull() || m_startTime.msecsTo(now) >= sliceSeconds * 1000)
     {
         m_startTime = now;
         const auto name = now.toString("yyMMddhhmmss");
-        const auto path = savePath + '/' + name + ".avi";// ".mp4";
+        const auto path = savePath + '/' + name + ".mp4";
         const auto fps = 30;
         const auto frame_width = frame.cols;
         const auto frame_height = frame.rows;
-        m_videoWriter = std::make_unique<cv::VideoWriter>(
-            path.toStdString(),
-            cv::VideoWriter::fourcc('M', 'J', 'P', 'G'),//'m', 'p', '4', 'v'), 
+
+        FfmpegEncoder::Params params{
+            frame_width,
+            frame_height,
             fps,
-            cv::Size(frame_width, frame_height));
+            3LL * frame_width * frame_height,
+            "veryfast",
+            27,
+            AV_PIX_FMT_BGR24,
+            AV_PIX_FMT_YUV420P
+        };
+
+        if (m_queue)
+        {
+            cv::Mat frame;
+            m_queue->push(frame);
+        }
+        m_queue = std::make_shared<MatQueue>();
+        std::thread(RunnerFunc, path.toStdString(), params, m_queue, m_stopped).detach();
     }
     
-    m_videoWriter->write(frame);
+    m_queue->push(frame);
 }
 
 void VideoSaver::onVideoStopped()
 {
     qDebug() << __FUNCTION__;
 
-    m_videoWriter.reset();
+    if (m_queue)
+    {
+        cv::Mat frame;
+        m_queue->push(frame);
+    }
+    m_queue.reset();
 }
