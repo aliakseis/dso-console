@@ -528,7 +528,8 @@ void MainWindow::onNewImage( cv::Mat frame )
 
     if (ui->checkBox_save->isChecked())
     {
-        m_videoSaver->onNewImage(frame, ui->lineEdit_SavePath->text(),
+        m_videoSaver->onNewImage(frame,
+            ui->lineEdit_SavePath->text().trimmed(),
             getSliceDurationSecs(ui->comboBox_SliceDuration));
     }
 
@@ -1743,8 +1744,23 @@ void MainWindow::on_pushButton_SavePointCloud_clicked()
 
 void MainWindow::on_checkBox_save_clicked(bool checked)
 {
-    if (!checked)
+    if (checked)
     {
+        QString folderPath = ui->lineEdit_SavePath->text().trimmed();
+        if (!folderPath.isEmpty())
+        {
+            QDir dir(folderPath);
+            if (dir.mkpath(".")) // https://stackoverflow.com/a/11517874/10472202
+            {
+                ui->lineEdit_SavePath->setEnabled(false);
+                return;
+            }
+        }
+        ui->checkBox_save->setChecked(false);
+    }
+    else
+    {
+        ui->lineEdit_SavePath->setEnabled(true);
         m_videoSaver->onVideoStopped();
     }
 }

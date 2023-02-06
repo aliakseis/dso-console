@@ -73,6 +73,7 @@ void VideoSaver::onNewImage(const cv::Mat& frame, QString savePath, int sliceSec
             m_queue->push(frame);
         }
         m_queue = std::make_shared<MatQueue>();
+        // https://stackoverflow.com/a/23454840/10472202
         std::thread(RunnerFunc, path.toStdString(), params, m_queue, m_stopped).detach();
     }
     
