@@ -32,6 +32,8 @@ public:
     typedef std::shared_ptr<std::promise<void>> StopWatcher;
 
 private:
+    void sendStop();
+
     QDateTime m_startTime;
     StopWatcher m_stopped;
     MatQueuePtr m_queue;

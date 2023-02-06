@@ -26,20 +26,22 @@ void RunnerFunc(std::string filename, FfmpegEncoder::Params params,
 }
 
 
-VideoSaver::VideoSaver() : m_stopped(new std::promise<void>, [](std::promise<void>* p) { p->set_value(); delete p; })
+VideoSaver::VideoSaver()
+    : m_stopped(new std::promise<void>,
+        [](std::promise<void>* p) {
+            qDebug() << __FUNCTION__ << "VideoSaver threads stopped.";
+            p->set_value(); delete p;
+        })
 {
 }
 
 VideoSaver::~VideoSaver()
 {
-    if (m_queue)
-    {
-        cv::Mat frame;
-        m_queue->push(frame);
-    }
+    sendStop();
     m_queue.reset();
 
     auto fut = m_stopped->get_future();
+    qDebug() << __FUNCTION__ << "Stopping VideoSaver threads...";
     m_stopped.reset();
     fut.get();
 }
@@ -67,11 +69,7 @@ void VideoSaver::onNewImage(const cv::Mat& frame, QString savePath, int sliceSec
             AV_PIX_FMT_YUV420P
         };
 
-        if (m_queue)
-        {
-            cv::Mat frame;
-            m_queue->push(frame);
-        }
+        sendStop();
         m_queue = std::make_shared<MatQueue>();
         // https://stackoverflow.com/a/23454840/10472202
         std::thread(RunnerFunc, path.toStdString(), params, m_queue, m_stopped).detach();
@@ -84,10 +82,15 @@ void VideoSaver::onVideoStopped()
 {
     qDebug() << __FUNCTION__;
 
+    sendStop();
+    m_queue.reset();
+}
+
+void VideoSaver::sendStop()
+{
     if (m_queue)
     {
         cv::Mat frame;
         m_queue->push(frame);
     }
-    m_queue.reset();
 }
