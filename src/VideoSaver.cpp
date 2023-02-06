@@ -46,7 +46,7 @@ VideoSaver::~VideoSaver()
     fut.get();
 }
 
-void VideoSaver::onNewImage(const cv::Mat& frame, QString savePath, int sliceSeconds)
+void VideoSaver::onNewImage(const cv::Mat& frame, QString savePath, double fps, int sliceSeconds)
 {
     QDateTime now = QDateTime::currentDateTime();
     if (!m_queue || m_startTime.isNull() || m_startTime.msecsTo(now) >= sliceSeconds * 1000)
@@ -54,7 +54,6 @@ void VideoSaver::onNewImage(const cv::Mat& frame, QString savePath, int sliceSec
         m_startTime = now;
         const auto name = now.toString("yyMMddhhmmss");
         const auto path = savePath + '/' + name + ".mp4";
-        const auto fps = 30;
         const auto frame_width = frame.cols;
         const auto frame_height = frame.rows;
 

@@ -89,6 +89,9 @@ const auto SETTING_MAX_FRAMES = QStringLiteral("setting_maxFrames");
 const auto SETTING_MAX_OPT_ITERATIONS = QStringLiteral("setting_maxOptIterations");
 const auto SETTING_MIN_OPT_ITERATIONS = QStringLiteral("setting_minOptIterations");
 
+const auto SETTING_SAVE_PATH = QStringLiteral("setting_savePath");
+const auto SETTING_SAVE_SLICE_DURATION = QStringLiteral("setting_saveSliceDuration");
+
 namespace {
 
 const int sliceIntervalValues[] = { 1, 2, 5, 10, 30 };
@@ -288,6 +291,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lineEdit_setting_maxOptIterations->setText(settings.value(SETTING_MAX_OPT_ITERATIONS, 4).toString());
     ui->lineEdit_setting_minOptIterations->setText(settings.value(SETTING_MIN_OPT_ITERATIONS, 1).toString());
 
+
+    ui->lineEdit_SavePath->setText(settings.value(SETTING_SAVE_PATH).toString());
+    ui->comboBox_SliceDuration->setCurrentIndex(settings.value(SETTING_SAVE_SLICE_DURATION, -1).toInt());
+
+
     mElabPool.setMaxThreadCount( 3 );
 }
 
@@ -318,6 +326,9 @@ MainWindow::~MainWindow()
     settings.setValue(SETTING_MAX_FRAMES, ui->lineEdit_setting_maxFrames->text());
     settings.setValue(SETTING_MAX_OPT_ITERATIONS, ui->lineEdit_setting_maxOptIterations->text());
     settings.setValue(SETTING_MIN_OPT_ITERATIONS, ui->lineEdit_setting_minOptIterations->text());
+
+    settings.setValue(SETTING_SAVE_PATH, ui->lineEdit_SavePath->text());
+    settings.setValue(SETTING_SAVE_SLICE_DURATION, ui->comboBox_SliceDuration->currentIndex());
 
     killGstLaunch();
 
@@ -530,6 +541,7 @@ void MainWindow::onNewImage( cv::Mat frame )
     {
         m_videoSaver->onNewImage(frame,
             ui->lineEdit_SavePath->text().trimmed(),
+            mSrcFps,
             getSliceDurationSecs(ui->comboBox_SliceDuration));
     }
 

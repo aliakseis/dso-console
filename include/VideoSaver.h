@@ -24,7 +24,7 @@ public:
     VideoSaver(const VideoSaver&) = delete;
     VideoSaver& operator =(const VideoSaver&) = delete;
 
-    void onNewImage(const cv::Mat& frame, QString savePath, int sliceSeconds);
+    void onNewImage(const cv::Mat& frame, QString savePath, double fps, int sliceSeconds);
     void onVideoStopped();
 
     typedef FQueue<cv::Mat, 15000000, 500> MatQueue;
