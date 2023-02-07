@@ -1765,6 +1765,7 @@ void MainWindow::on_checkBox_save_clicked(bool checked)
             if (dir.mkpath(".")) // https://stackoverflow.com/a/11517874/10472202
             {
                 ui->lineEdit_SavePath->setEnabled(false);
+                ui->pushButton_chooseSavePath->setEnabled(false);
                 return;
             }
         }
@@ -1773,6 +1774,16 @@ void MainWindow::on_checkBox_save_clicked(bool checked)
     else
     {
         ui->lineEdit_SavePath->setEnabled(true);
+        ui->pushButton_chooseSavePath->setEnabled(true);
         m_videoSaver->onVideoStopped();
+    }
+}
+
+void MainWindow::on_pushButton_chooseSavePath_clicked()
+{
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a Save Videos Directory"));
+    if (!dir.isEmpty())
+    {
+        ui->lineEdit_SavePath->setText(dir);
     }
 }

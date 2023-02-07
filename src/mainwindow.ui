@@ -623,6 +623,24 @@
 
 
 
+          <item>
+           <widget class="QPushButton" name="pushButton_chooseSavePath">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>
+                     Click to choose a path to save the videos.
+                   </string>
+            </property>
+            <property name="text">
+             <string>Choose</string>
+            </property>
+           </widget>
+          </item>
 
 
 

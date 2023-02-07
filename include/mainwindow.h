@@ -111,6 +111,8 @@ private slots:
 
     void on_checkBox_save_clicked(bool checked);
 
+    void on_pushButton_chooseSavePath_clicked();
+
 private:
     Ui::MainWindow *ui;
 
