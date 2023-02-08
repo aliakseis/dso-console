@@ -1770,6 +1770,8 @@ void MainWindow::on_checkBox_save_clicked(bool checked)
             }
         }
         ui->checkBox_save->setChecked(false);
+        QMessageBox::warning(this, tr("Wrong Directory path"),
+            tr("Cannot use directory path: \"%1\"").arg(folderPath));
     }
     else
     {
