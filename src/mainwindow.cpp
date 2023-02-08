@@ -293,7 +293,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     ui->lineEdit_SavePath->setText(settings.value(SETTING_SAVE_PATH).toString());
-    ui->comboBox_SliceDuration->setCurrentIndex(settings.value(SETTING_SAVE_SLICE_DURATION, -1).toInt());
+    ui->comboBox_SliceDuration->setCurrentIndex(settings.value(SETTING_SAVE_SLICE_DURATION, 0).toInt());
 
 
     mElabPool.setMaxThreadCount( 3 );
