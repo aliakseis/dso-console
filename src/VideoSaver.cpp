@@ -49,7 +49,8 @@ VideoSaver::~VideoSaver()
 void VideoSaver::onNewImage(const cv::Mat& frame, QString savePath, double fps, int sliceSeconds)
 {
     QDateTime now = QDateTime::currentDateTime();
-    if (!m_queue || m_startTime.isNull() || m_startTime.msecsTo(now) >= sliceSeconds * 1000)
+    if (!m_queue || m_startTime.isNull()
+        || sliceSeconds > 0 && m_startTime.msecsTo(now) >= sliceSeconds * 1000)
     {
         m_startTime = now;
         const auto name = now.toString("yyMMddhhmmss");
