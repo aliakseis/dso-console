@@ -537,7 +537,7 @@ void MainWindow::onNewImage( cv::Mat frame )
         source->dataConsumed();
     }
 
-    if (ui->checkBox_save->isChecked())
+    if (ui->checkBox_save->isChecked() && ui->pushButton_camera_connect_disconnect->isChecked())
     {
         m_videoSaver->onNewImage(frame,
             ui->lineEdit_SavePath->text().trimmed(),
