@@ -18,9 +18,12 @@
 static QString getWebSocketDebuggerUrl()
 {
     QNetworkAccessManager    networkAccessManager;
-    QNetworkRequest request(QStringLiteral("http://localhost:9222/json/list"));
 
-    QNetworkReply* reply = networkAccessManager.get(request);
+    //QNetworkRequest request(QStringLiteral("http://localhost:9222/json/list"));
+    //QNetworkReply* reply = networkAccessManager.get(request);
+
+    QNetworkRequest request(QStringLiteral("http://localhost:9222/json/new"));
+    QNetworkReply* reply = networkAccessManager.put(request, QByteArray());
 
     QEventLoop requrestWaitLoop;
 
@@ -61,7 +64,8 @@ static QString getWebSocketDebuggerUrl()
 
     auto doc = QJsonDocument::fromJson(syncResult);
 
-    return doc[0]["webSocketDebuggerUrl"].toString();
+    //return doc[0]["webSocketDebuggerUrl"].toString();
+    return doc["webSocketDebuggerUrl"].toString();
 }
 
 
