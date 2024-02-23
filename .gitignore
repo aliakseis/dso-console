@@ -39,3 +39,8 @@ CMakeLists.txt.user*
 
 [Bb]uild/
 [Bb]uild64/
+
+.vs/
+
+CMakePresets.json
+CMakeUserPresets.json
