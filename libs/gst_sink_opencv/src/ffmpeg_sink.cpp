@@ -32,12 +32,10 @@ bool FFmpegThread::init()
     m_formatContext = avformat_alloc_context();
 
     AVDictionary *streamOpts = nullptr;
-    AVInputFormat* iformat = nullptr;
-    if (!m_inputFormat.empty())
-    {
-        iformat = av_find_input_format(m_inputFormat.c_str());
-        av_dict_set(&streamOpts, "rtbufsize", "15000000", 0); // https://superuser.com/questions/1158820/ffmpeg-real-time-buffer-issue-rtbufsize-parameter
-    }
+    const auto iformat = m_inputFormat.empty() ? nullptr
+        : (av_dict_set(&streamOpts, "rtbufsize", "15000000", 0), // https://superuser.com/questions/1158820/ffmpeg-real-time-buffer-issue-rtbufsize-parameter
+            av_find_input_format(m_inputFormat.c_str()));
+    
     int error = avformat_open_input(&m_formatContext,
         m_url.c_str(), 
         iformat,

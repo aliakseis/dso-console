@@ -4,11 +4,12 @@
 
 extern "C"
 {
-#include <libavformat\avformat.h>
-#include <libavutil\rational.h>
-#include <libswscale\swscale.h>
-#include <libavutil\opt.h>
-#include <libavutil\error.h>
+#include <libavformat/avformat.h>
+#include <libavutil/rational.h>
+#include <libswscale/swscale.h>
+#include <libavutil/opt.h>
+#include <libavutil/error.h>
+#include <libavcodec/avcodec.h>
 }
 
 
