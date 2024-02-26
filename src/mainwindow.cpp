@@ -1646,7 +1646,7 @@ void MainWindow::startDso()
     setting_affineOptModeA = 0;
     setting_affineOptModeB = 0;
 
-    setting_viewer_run_loop_sleep_for_ms = 40;
+    setting_viewer_run_loop_sleep_for_ms = 70;
 
     int w;
     int h;
