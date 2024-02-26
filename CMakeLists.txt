@@ -276,13 +276,13 @@ if(MSVC)
 	#    install(DIRECTORY "$ENV{GSTREAMER_ROOT_X86}/bin/" DESTINATION .)
 	#endif ()
 
-	if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-	    install(DIRECTORY "$ENV{GSTREAMER_ROOT_X86_64}/" DESTINATION gst PATTERN "*.pdb" EXCLUDE)
-	else ()
-	    install(DIRECTORY "$ENV{GSTREAMER_ROOT_X86}/" DESTINATION gst PATTERN "*.pdb" EXCLUDE)
-	endif ()
+	#if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+	#    install(DIRECTORY "$ENV{GSTREAMER_ROOT_X86_64}/" DESTINATION gst PATTERN "*.pdb" EXCLUDE)
+	#else ()
+	#    install(DIRECTORY "$ENV{GSTREAMER_ROOT_X86}/" DESTINATION gst PATTERN "*.pdb" EXCLUDE)
+	#endif ()
 
-	install(FILES run.cmd DESTINATION .)
+	#install(FILES run.cmd DESTINATION .)
 
 endif()
 
