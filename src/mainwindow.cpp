@@ -142,7 +142,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
-    killGstLaunch();
+    //killGstLaunch();
 
     mCameraConnected = false;
 
@@ -330,13 +330,13 @@ MainWindow::~MainWindow()
     settings.setValue(SETTING_SAVE_PATH, ui->lineEdit_SavePath->text());
     settings.setValue(SETTING_SAVE_SLICE_DURATION, ui->comboBox_SliceDuration->currentIndex());
 
-    killGstLaunch();
+    //killGstLaunch();
 
-    while( mGstProcess.state() == QProcess::Running )
-    {
-        mGstProcess.kill();
-        QApplication::processEvents( QEventLoop::AllEvents, 50 );
-    }
+    //while( mGstProcess.state() == QProcess::Running )
+    //{
+    //    mGstProcess.kill();
+    //    QApplication::processEvents( QEventLoop::AllEvents, 50 );
+    //}
 
     mElabPool.clear();
 
@@ -402,9 +402,9 @@ void MainWindow::on_comboBox_camera_currentIndexChanged(int index)
 
 bool MainWindow::startCamera()
 {
-    if(!killGstLaunch()) {
-        return false;
-    }
+    //if(!killGstLaunch()) {
+    //    return false;
+    //}
 
     if (mCameraThread)
     {
@@ -457,13 +457,19 @@ bool MainWindow::startCamera()
     }
     else
     {
-        if (!startGstProcess()) {
+        //if (!startGstProcess()) {
+        //    return false;
+        //}
+
+        auto gstPipeline = getGstPipeline();
+        if (gstPipeline.isEmpty())
+        {
             return false;
         }
 
         const auto& mode = mCameras[ui->comboBox_camera->currentIndex()].modes[ui->comboBox_camera_res->currentIndex()];
 
-        const auto cameraThread = new CameraThread(mode.fps());
+        const auto cameraThread = new CameraThread(gstPipeline, mode.fps());
         mCameraThread = cameraThread;
 
         connect(cameraThread, &CameraThread::cameraConnected, this, &MainWindow::onCameraConnected);
@@ -478,7 +484,7 @@ bool MainWindow::startCamera()
 
 void MainWindow::stopCamera()
 {
-    killGstLaunch();
+    //killGstLaunch();
 
     m_videoSaver->onVideoStopped();
 
@@ -877,74 +883,79 @@ void MainWindow::on_pushButton_camera_connect_disconnect_clicked(bool checked)
     }
 }
 
-void MainWindow::onProcessReadyRead()
-{
-    while( mGstProcess.bytesAvailable() )
-    {
-        QByteArray line = mGstProcess.readLine();
+//void MainWindow::onProcessReadyRead()
+//{
+//    while( mGstProcess.bytesAvailable() )
+//    {
+//        QByteArray line = mGstProcess.readLine();
+//
+//        qDebug() << line;
+//
+//        QApplication::processEvents( QEventLoop::AllEvents, 5 );
+//    }
+//}
 
-        qDebug() << line;
+//bool MainWindow::killGstLaunch( )
+//{
+//    if (mGstProcess.state() != QProcess::Running) {
+//        return true;
+//    }
+//
+//    // >>>>> Kill gst-launch-1.0 processes
+//
+//#ifdef Q_OS_WIN
+//
+//    QProcess killer;
+//    killer.start("taskkill /im gst-launch-1.0.exe /f /t");
+//    killer.waitForFinished(1000);
+//
+//#else
+//
+//    QProcess killer;
+//    QProcess checker;
+//
+//    int count = 0;
+//    bool done = false;
+//    do
+//    {
+//        killer.start( "pkill gst-launch" );
+//        killer.waitForFinished( 1000 );
+//
+//        checker.start( "pgrep gst-launch" );
+//        checker.waitForFinished( 1000 );
+//
+//        done = checker.readAll().size()==0;
+//        count++;
+//
+//        if( count==10 )
+//        {
+//            qDebug() << tr("Cannot kill gst-launch active process(es)" );
+//
+//            return false;
+//        }
+//
+//    }
+//    while( !done );
+//    // <<<<< Kill gst-launch-1.0 processes
+//#endif // Q_OS_WIN
+//
+//    return true;
+//}
 
-        QApplication::processEvents( QEventLoop::AllEvents, 5 );
-    }
-}
-
-bool MainWindow::killGstLaunch( )
-{
-    if (mGstProcess.state() != QProcess::Running) {
-        return true;
-    }
-
-    // >>>>> Kill gst-launch-1.0 processes
-
-#ifdef Q_OS_WIN
-
-    QProcess killer;
-    killer.start("taskkill /im gst-launch-1.0.exe /f /t");
-    killer.waitForFinished(1000);
-
-#else
-
-    QProcess killer;
-    QProcess checker;
-
-    int count = 0;
-    bool done = false;
-    do
-    {
-        killer.start( "pkill gst-launch" );
-        killer.waitForFinished( 1000 );
-
-        checker.start( "pgrep gst-launch" );
-        checker.waitForFinished( 1000 );
-
-        done = checker.readAll().size()==0;
-        count++;
-
-        if( count==10 )
-        {
-            qDebug() << tr("Cannot kill gst-launch active process(es)" );
-
-            return false;
-        }
-
-    }
-    while( !done );
-    // <<<<< Kill gst-launch-1.0 processes
-#endif // Q_OS_WIN
-
-    return true;
-}
-
-bool MainWindow::startGstProcess( )
+QString MainWindow::getGstPipeline()
 {
     // handle command line analogously to https://github.com/GStreamer/gst-plugins-base/blob/master/tools/gst-device-monitor.c
     if(mCameras.empty()) {
-        return false;
+        return {};
     }
 
-    QString launchStr;
+    QString launchStr = QStringLiteral(
+        "%1 ! video/x-raw,format=%2,width=%3,height=%4,framerate=%5/%6 "
+    ).arg(mLaunchLine).arg(mSrcFormat).arg(mSrcWidth).arg(mSrcHeight).arg(mSrcFpsDen).arg(mSrcFpsNum);
 
+    return launchStr;
+
+#if 0
 #ifdef USE_ARM
     launchStr = QStringLiteral(
                 "gst-launch-1.0 %1 do-timestamp=true ! "
@@ -974,30 +985,31 @@ bool MainWindow::startGstProcess( )
                "udpsink host=127.0.0.1 port=5000 sync=false async=false -e")
             .arg(mLaunchLine).arg(mSrcFormat).arg(mSrcWidth).arg(mSrcHeight).arg(mSrcFpsDen).arg(mSrcFpsNum);
 #endif
+#endif
 
-    qDebug() << tr("Starting pipeline: \n %1").arg(launchStr);
+    //qDebug() << tr("Starting pipeline: \n %1").arg(launchStr);
 
-    mGstProcess.setProcessChannelMode( QProcess::MergedChannels );
+    //mGstProcess.setProcessChannelMode( QProcess::MergedChannels );
 
-    mGstProcessOutput.clear();
+    //mGstProcessOutput.clear();
 
-    connect(&mGstProcess, &QProcess::readyReadStandardOutput, [this]() {
-        QString output = mGstProcess.readAllStandardOutput();
-        qDebug() << "Child process trace: " << output;
-        QMutexLocker locker(&mGstProcessOutputMutex);
-        mGstProcessOutput += output;
-    });
+    //connect(&mGstProcess, &QProcess::readyReadStandardOutput, [this]() {
+    //    QString output = mGstProcess.readAllStandardOutput();
+    //    qDebug() << "Child process trace: " << output;
+    //    QMutexLocker locker(&mGstProcessOutputMutex);
+    //    mGstProcessOutput += output;
+    //});
 
-    mGstProcess.start( launchStr );
+    //mGstProcess.start( launchStr );
 
-    if( !mGstProcess.waitForStarted( 5000 ) )
-    {
-        // TODO Camera error message
-        qDebug() << "Timed out starting a child process";
-        return false;
-    }
+    //if( !mGstProcess.waitForStarted( 5000 ) )
+    //{
+    //    // TODO Camera error message
+    //    qDebug() << "Timed out starting a child process";
+    //    return false;
+    //}
 
-    return true;
+    //return true;
 }
 
 void MainWindow::updateCbParams()

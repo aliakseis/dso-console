@@ -2,11 +2,11 @@
 
 #include <QDebug>
 #include <string>
+#include <utility>
 
-using namespace std;
-
-CameraThread::CameraThread( double fps)
-    : mImageSink(nullptr)
+CameraThread::CameraThread(QString pipelineStr, double fps)
+    : mPipelineStr(std::move(pipelineStr))
+    , mImageSink(nullptr)
 {
     mFps = fps;
 }
@@ -27,17 +27,17 @@ CameraThread::~CameraThread()
 
 void CameraThread::run()
 {
-#ifdef USE_ARM
-    std::string pipeline = "udpsrc name=videosrc port=5000 ! "
-                           "application/x-rtp,media=video,encoding-name=H264,pt=96 ! "
-                           "rtph264depay ! h264parse ! omxh264dec";
-#else
-    std::string pipeline = "udpsrc name=videosrc port=5000 ! "
-                           "application/x-rtp,media=video,encoding-name=H264,pt=96 ! "
-                           "rtph264depay ! h264parse ! avdec_h264";
-#endif
+//#ifdef USE_ARM
+//    std::string pipeline = "udpsrc name=videosrc port=5000 ! "
+//                           "application/x-rtp,media=video,encoding-name=H264,pt=96 ! "
+//                           "rtph264depay ! h264parse ! omxh264dec";
+//#else
+//    std::string pipeline = "udpsrc name=videosrc port=5000 ! "
+//                           "application/x-rtp,media=video,encoding-name=H264,pt=96 ! "
+//                           "rtph264depay ! h264parse ! avdec_h264";
+//#endif
 
-    mImageSink = GstSinkOpenCV::Create( pipeline, 10, 5 );
+    mImageSink = GstSinkOpenCV::Create(mPipelineStr.toStdString(), 10, 5);
 
     if(!mImageSink)
     {
@@ -47,7 +47,7 @@ void CameraThread::run()
 
     emit cameraConnected();
 
-    forever
+    for(;;)
     {
         if( isInterruptionRequested() )
         {

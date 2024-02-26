@@ -57,8 +57,7 @@ bool GstSinkOpenCV::init( int timeout_sec )
     GError *error = nullptr;
     GstStateChangeReturn ret;
 
-    mPipelineStr += " ! videoconvert ! " \
-                    "appsink name=sink caps=\"video/x-raw,format=BGR\"";
+    mPipelineStr += " ! videoconvert ! appsink name=sink caps=\"video/x-raw,format=BGR\"";
 
     cout << endl << "Input pipeline:" << endl << mPipelineStr << endl << endl;
 

@@ -14,7 +14,7 @@ class CameraThread : public CameraThreadBase
     Q_OBJECT
 
 public:
-    CameraThread( double fps );
+    CameraThread(QString pipelineStr, double fps);
     ~CameraThread();
 
     double getBufPerc() override;
@@ -32,7 +32,7 @@ protected:
 
 private:
     GstSinkOpenCV* mImageSink;
-
+    QString mPipelineStr;
     double mFps;
 };
 

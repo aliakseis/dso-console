@@ -44,8 +44,8 @@ public:
 
 protected:
     QStringList updateCameraInfo();
-    bool startGstProcess();
-    bool killGstLaunch();
+    QString getGstPipeline();
+    //bool killGstLaunch();
     bool startCamera();
     void stopCamera();
 
@@ -66,7 +66,7 @@ public slots:
 protected slots:
     void onCameraConnected();
     void onCameraDisconnected(bool ok);
-    void onProcessReadyRead();
+    //void onProcessReadyRead();
 
     void updateParamGUI(cv::Mat K, cv::Mat D, const cv::Size& size);
     void updateCbParams();
@@ -122,7 +122,7 @@ private:
 
     QProgressBar mCamBuffer;
 
-    QProcess mGstProcess;
+    //QProcess mGstProcess;
 
     QString mGstProcessOutput;
     QMutex mGstProcessOutputMutex;
