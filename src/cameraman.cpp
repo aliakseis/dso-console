@@ -189,6 +189,10 @@ void print_device(GstDevice * device, std::vector<CameraDesc>& result)
             {
                 mode.format = format;
             }
+            else
+            {
+                continue;
+            }
             if (auto framerates = gst_structure_get_value(s, "framerate")) {
                 if (GST_VALUE_HOLDS_FRACTION(framerates))
                 {
@@ -236,7 +240,10 @@ void print_device(GstDevice * device, std::vector<CameraDesc>& result)
         gst_caps_unref(caps);
     }
 
-    result.push_back(std::move(desc));
+    if (!desc.modes.empty())
+    {
+        result.push_back(std::move(desc));
+    }
 }
 
 // https://github.com/huskyroboticsteam/Orpheus/blob/084ccacf19f520836f15db4abb37f678d3f20993/Rover/GStreamer/device-scanner.cpp
