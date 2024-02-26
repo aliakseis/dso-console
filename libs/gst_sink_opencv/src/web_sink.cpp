@@ -109,7 +109,7 @@ void WebThread::run()
 
     exec();
 
-    emit cameraDisconnected(m_interruptRequested);
+    emit cameraDisconnected(m_interruptRequested, {});
 }
 
 void WebThread::onDataReceived(const QByteArray& data)

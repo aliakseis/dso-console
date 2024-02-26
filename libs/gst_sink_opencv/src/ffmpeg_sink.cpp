@@ -120,7 +120,7 @@ void FFmpegThread::run()
             if (ret < 0)
             {
                 av_packet_unref(&packet);
-                emit cameraDisconnected(false);
+                emit cameraDisconnected(false, {});
                 return;
             }
             while (!isInterruptionRequested() && avcodec_receive_frame(m_codecContext, videoFrame.get()) == 0)
@@ -171,7 +171,7 @@ void FFmpegThread::run()
         av_packet_unref(&packet);
     }
 
-    emit cameraDisconnected(true);
+    emit cameraDisconnected(true, {});
 }
 
 void FFmpegThread::dataConsumed()

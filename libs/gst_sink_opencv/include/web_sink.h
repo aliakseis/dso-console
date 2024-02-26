@@ -39,7 +39,7 @@ private slots:
 
 signals:
     void newImage(cv::Mat frame);
-    void cameraDisconnected(bool ok);
+    void cameraDisconnected(bool ok, const QString& error);
 
 protected:
     void run() override;

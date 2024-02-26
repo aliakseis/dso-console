@@ -5,16 +5,22 @@
 
 #include <mutex>
 #include <queue>
+#include <string>
+#include  <utility>
+
 
 class GstSinkOpenCV
 {
     enum { FRAME_BUF_SIZE = 5 };
 public:
-    static GstSinkOpenCV* Create(std::string input_pipeline, size_t bufSize = FRAME_BUF_SIZE, int timeout_sec=15, bool debug=false );
+    static std::pair<GstSinkOpenCV*, std::string> 
+        Create(std::string input_pipeline, size_t bufSize = FRAME_BUF_SIZE, int timeout_sec=15, bool debug=false );
     ~GstSinkOpenCV();
 
     cv::Mat getLastFrame();
     double getBufPerc();
+
+    std::string error();
 
 private:
     GstSinkOpenCV(std::string input_pipeline, int bufSize, bool debug );
@@ -40,4 +46,6 @@ private:
     bool mDebug;
 
     std::mutex mFrameMutex;
+
+    std::string mError;
 };

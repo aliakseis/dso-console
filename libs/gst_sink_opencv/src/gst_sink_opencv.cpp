@@ -39,17 +39,19 @@ GstSinkOpenCV::~GstSinkOpenCV()
 
 }
 
-GstSinkOpenCV* GstSinkOpenCV::Create(string input_pipeline, size_t bufSize, int timeout_sec, bool debug )
+std::pair<GstSinkOpenCV*, std::string> 
+GstSinkOpenCV::Create(string input_pipeline, size_t bufSize, int timeout_sec, bool debug )
 {
     auto* gstSinkOpencv = new GstSinkOpenCV( std::move(input_pipeline), bufSize, debug );
 
     if( !gstSinkOpencv->init( timeout_sec ) )
     {
+        auto error = gstSinkOpencv->error();
         delete gstSinkOpencv;
-        return nullptr;
+        return { nullptr, error };
     }
 
-    return gstSinkOpencv;
+    return { gstSinkOpencv, {} };
 }
 
 bool GstSinkOpenCV::init( int timeout_sec )
@@ -65,9 +67,9 @@ bool GstSinkOpenCV::init( int timeout_sec )
 
     if (error != nullptr)
     {
-        g_print ("*** Error *** could not construct pipeline: %s\n", error->message);
+        mError = error->message;
         g_clear_error (&error);
-        return NULL;
+        return false;
     }
 
     /* set to PAUSED to make the first frame arrive in the sink */
@@ -75,7 +77,7 @@ bool GstSinkOpenCV::init( int timeout_sec )
     switch (ret)
     {
     case GST_STATE_CHANGE_FAILURE:
-        g_print ("Failed to play the pipeline\n");
+        mError = "Failed to play the pipeline";
         return false;
 
     case GST_STATE_CHANGE_NO_PREROLL:
@@ -93,7 +95,7 @@ bool GstSinkOpenCV::init( int timeout_sec )
     ret = gst_element_get_state( mPipeline, nullptr, nullptr, timeout_sec * GST_SECOND );
     if (/*ret == GST_STATE_CHANGE_FAILURE*/ret!=GST_STATE_CHANGE_SUCCESS)
     {
-        g_print ("Source connection timeout\n");
+        mError = "Source connection timeout";
         return false;
     }
 
@@ -124,7 +126,7 @@ bool GstSinkOpenCV::init( int timeout_sec )
         caps = gst_sample_get_caps (sample);
         if (!caps)
         {
-            g_print ("could not get the format of the first frame\n");
+            mError = "could not get the format of the first frame";
             return false;
         }
         s = gst_caps_get_structure (caps, 0);
@@ -134,7 +136,7 @@ bool GstSinkOpenCV::init( int timeout_sec )
         res |= gst_structure_get_int (s, "height", &height);
         if (!res)
         {
-            g_print ("could not get the dimensions of the first frame\n");
+            mError = "could not get the dimensions of the first frame";
             return false;
         }
 
@@ -174,7 +176,7 @@ bool GstSinkOpenCV::init( int timeout_sec )
     }
     else
     {
-        g_print ("could not get first frame \n");
+        mError = "could not get first frame";
         return false;
     }
 
@@ -296,6 +298,11 @@ GstFlowReturn GstSinkOpenCV::on_new_sample_from_sink( GstElement* elt, GstSinkOp
 double GstSinkOpenCV::getBufPerc()
 {
     return static_cast<double>(mFrameBuffer.size())/mFrameBufferSize;
+}
+
+std::string GstSinkOpenCV::error()
+{
+    return mError;
 }
 
 cv::Mat GstSinkOpenCV::getLastFrame()

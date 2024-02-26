@@ -502,7 +502,7 @@ void MainWindow::onCameraConnected()
     mCameraConnected = true;
 }
 
-void MainWindow::onCameraDisconnected(bool ok)
+void MainWindow::onCameraDisconnected(bool ok, const QString& error)
 {
     m_videoSaver->onVideoStopped();
 
@@ -523,16 +523,16 @@ void MainWindow::onCameraDisconnected(bool ok)
     ui->pushButton_load_params->setEnabled(true);
     //ui->pushButton_save_params->setEnabled(false);
 
-    mGstProcessOutputMutex.lock();
-    QString output = mGstProcessOutput;
-    mGstProcessOutputMutex.unlock();
+    //mGstProcessOutputMutex.lock();
+    //QString output = mGstProcessOutput;
+    //mGstProcessOutputMutex.unlock();
 
     if (!ok)
     {
         QMessageBox::warning(this, tr("Camera disconnected"),
             tr("If the camera has been just started please verify\n"
                 "the correctness of Width, Height and FPS\n"
-                "Process output:\n") + output.right(1000).trimmed());
+                "Error:\n") + error.right(1000).trimmed());
     }
 }
 

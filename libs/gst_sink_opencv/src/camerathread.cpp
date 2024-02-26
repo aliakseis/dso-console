@@ -37,11 +37,11 @@ void CameraThread::run()
 //                           "rtph264depay ! h264parse ! avdec_h264";
 //#endif
 
-    mImageSink = GstSinkOpenCV::Create(mPipelineStr.toStdString(), 10, 5);
+    auto [mImageSink, error] = GstSinkOpenCV::Create(mPipelineStr.toStdString(), 10, 5);
 
     if(!mImageSink)
     {
-        emit cameraDisconnected(false);
+        emit cameraDisconnected(false, QString::fromStdString(error));
         return;
     }
 
@@ -74,7 +74,7 @@ void CameraThread::run()
 
     qDebug() << tr("CameraThread stopped.");
 
-    emit cameraDisconnected(true);
+    emit cameraDisconnected(true, {});
 }
 
 double CameraThread::getBufPerc()

@@ -65,7 +65,7 @@ public slots:
 
 protected slots:
     void onCameraConnected();
-    void onCameraDisconnected(bool ok);
+    void onCameraDisconnected(bool ok, const QString& error);
     //void onProcessReadyRead();
 
     void updateParamGUI(cv::Mat K, cv::Mat D, const cv::Size& size);
@@ -124,8 +124,8 @@ private:
 
     //QProcess mGstProcess;
 
-    QString mGstProcessOutput;
-    QMutex mGstProcessOutputMutex;
+    //QString mGstProcessOutput;
+    //QMutex mGstProcessOutputMutex;
 
     std::vector<CameraDesc> mCameras;
     CameraThreadBase* mCameraThread;
